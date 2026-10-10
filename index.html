@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio | 地材视觉效果图设计师</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 全局平滑滚动 */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* 流光边框动画，克制不刺眼 */
+    .glow-card {
+      position: relative;
+      background: #171717;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    .glow-card::before {
+      content: "";
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: conic-gradient(transparent, rgba(160, 190, 255, 0.25), transparent 30%);
+      animation: rotate 5s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .glow-card:hover::before {
+      opacity: 1;
+    }
+    .glow-card-inner {
+      position: relative;
+      z-index: 2;
+      background: #171717;
+      margin: 1px;
+      border-radius: 0.7rem;
+    }
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+    /* 页面入场淡入动画 */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: "#121212",
+            darkCard: "#171717",
+            accent: "#a0beff",
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+</head>
+<body class="bg-dark text-gray-200 font-sans antialiased">
+<!-- 双语切换 -->
+<div class="fixed top-4 right-4 z-50">
+  <button id="langBtn" class="px-3 py-1 rounded-full border border-gray-700 hover:border-accent transition-colors text-sm">
+    EN / 中文
+  </button>
+</div>
+
+<!-- 导航栏 -->
+<header class="fixed w-full top-0 z-40 bg-dark/80 backdrop-blur-md border-b border-gray-800">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#home" class="text-xl font-semibold text-white">
+      <span class="cn">地材视觉设计</span>
+      <span class="en hidden">Material Visual Designer</span>
+    </a>
+    <ul class="hidden md:flex gap-8 text-sm">
+      <li><a href="#home" class="hover:text-accent transition-colors"><span class="cn">首页</span><span class="en hidden">Home</span></a></li>
+      <li><a href="#about" class="hover:text-accent transition-colors"><span class="cn">关于我</span><span class="en hidden">About</span></a></li>
+      <li><a href="#works" class="hover:text-accent transition-colors"><span class="cn">作品集</span><span class="en hidden">Works</span></a></li>
+      <li><a href="#contact" class="hover:text-accent transition-colors"><span class="cn">联系</span><span class="en hidden">Contact</span></a></li>
+    </ul>
+    <!-- 移动端菜单 -->
+    <button id="menuBtn" class="md:hidden text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18"></path>
+      </svg>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden bg-dark/95 backdrop-blur-lg px-6 pb-4">
+    <ul class="flex flex-col gap-4 text-sm">
+      <li><a href="#home" class="hover:text-accent"><span class="cn">首页</span><span class="en hidden">Home</span></a></li>
+      <li><a href="#about" class="hover:text-accent"><span class="cn">关于我</span><span class="en hidden">About</span></a></li>
+      <li><a href="#works" class="hover:text-accent"><span class="cn">作品集</span><span class="en hidden">Works</span></a></li>
+      <li><a href="#contact" class="hover:text-accent"><span class="cn">联系</span><span class="en hidden">Contact</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- 首页 Hero -->
+<section id="home" class="min-h-screen flex items-center pt-20">
+  <div class="container mx-auto px-6 py-20 fade-in">
+    <div class="max-w-3xl">
+      <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold text-white leading-tight">
+        <span class="cn">地材视觉 & 效果图设计</span>
+        <span class="en hidden">Material Visualization & Rendering</span>
+      </h1>
+      <p class="mt-6 text-lg text-gray-400 max-w-xl">
+        <span class="cn">专注石材、木纹、地材纹理制作，3D渲染与场景效果图。服务国内品牌与海外Upwork客户。</span>
+        <span class="en hidden">Specialized in stone, wood, flooring texture creation, 3D rendering & scene visualization. Serving domestic brands and global clients on Upwork.</span>
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#works" class="px-6 py-3 bg-accent text-dark font-medium rounded hover:bg-blue-300 transition">
+          <span class="cn">浏览作品</span>
+          <span class="en hidden">View Portfolio</span>
+        </a>
+        <a href="#contact" class="px-6 py-3 border border-gray-600 rounded hover:border-accent transition">
+          <span class="cn">联系我</span>
+          <span class="en hidden">Get In Touch</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 关于我 -->
+<section id="about" class="py-24">
+  <div class="container mx-auto px-6 fade-in">
+    <h2 class="text-3xl font-bold text-white mb-10">
+      <span class="cn">关于我</span>
+      <span class="en hidden">About Me</span>
+    </h2>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-gray-400 leading-relaxed">
+          <span class="cn">地材视觉与效果图设计师，擅长地材纹理还原、材质调色、3D场景搭建与写实渲染。熟练使用 Photoshop、3ds Max、Substance Sampler，为建材品牌制作产品效果图、场景铺贴方案。同时承接海外Upwork项目，可配合海外客户规范输出效果图、材质贴图。</span>
+          <span class="en hidden">Material visualization & rendering designer. Expert in flooring texture reproduction, color grading, 3D scene setup and photorealistic rendering. Skilled in Photoshop, 3ds Max, Substance Sampler. Create product renders and tile layout visuals for building material brands. Accept freelance projects on Upwork for global clients.</span>
+        </p>
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="px-3 py-1 bg-darkCard rounded text-sm">Photoshop</span>
+          <span class="px-3 py-1 bg-darkCard rounded text-sm">3ds Max</span>
+          <span class="px-3 py-1 bg-darkCard rounded text-sm">Substance Sampler</span>
+          <span class="px-3 py-1 bg-darkCard rounded text-sm">AI Texture</span>
+          <span class="px-3 py-1 bg-darkCard rounded text-sm">地材效果图</span>
+        </div>
+      </div>
+      <div class="glow-card">
+        <div class="glow-card-inner p-6">
+          <div class="aspect-[4/3] bg-gray-800 rounded flex items-center justify-center text-gray-500">
+            <span class="cn">个人形象图占位</span>
+            <span class="en hidden">Profile Image Placeholder</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 作品集 -->
+<section id="works" class="py-24 bg-dark/40">
+  <div class="container mx-auto px-6 fade-in">
+    <h2 class="text-3xl font-bold text-white mb-6">
+      <span class="cn">作品集</span>
+      <span class="en hidden">Portfolio</span>
+    </h2>
+    <p class="text-gray-400 mb-8">
+      <span class="cn">分类：3D渲染 / 地材效果图</span>
+      <span class="en hidden">Categories: 3D Rendering / Flooring Visualization</span>
+    </p>
+    <!-- 作品筛选按钮 -->
+    <div class="flex flex-wrap gap-3 mb-10">
+      <button class="filter-btn active px-4 py-2 rounded border border-accent text-accent" data-filter="all">All / 全部</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 hover:border-accent transition" data-filter="render">3D Render / 3D渲染</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 hover:border-accent transition" data-filter="flooring">Flooring / 地材效果图</button>
+    </div>
+    <!-- 作品网格 -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 work-grid">
+      <!-- 项目1：地材效果图 -->
+      <div class="glow-card work-item" data-cat="flooring">
+        <div class="glow-card-inner p-5">
+          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
+            <span class="cn">地材铺贴效果图</span>
+            <span class="en hidden">Flooring Layout Render</span>
+          </div>
+          <h3 class="text-white font-medium">Wood Tile Scene</h3>
+          <p class="text-sm text-gray-400 mt-1">
+            <span class="cn">木纹地板工字铺场景效果图，材质调色与光影匹配</span>
+            <span class="en hidden">Wood flooring herringbone scene, texture grading & lighting setup</span>
+          </p>
+          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
+            <span class="cn">查看详情</span>
+            <span class="en hidden">View Detail</span> →
+          </a>
+        </div>
+      </div>
+      <!-- 项目2：3D渲染 -->
+      <div class="glow-card work-item" data-cat="render">
+        <div class="glow-card-inner p-5">
+          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
+            <span class="cn">石材3D产品渲染</span>
+            <span class="en hidden">Stone 3D Product Render</span>
+          </div>
+          <h3 class="text-white font-medium">Marble Slab Render</h3>
+          <p class="text-sm text-gray-400 mt-1">
+            <span class="cn">大理石板材写实渲染，纹理细节还原</span>
+            <span class="en hidden">Photorealistic marble slab render, fine texture reproduction</span>
+          </p>
+          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
+            <span class="cn">查看详情</span>
+            <span class="en hidden">View Detail</span> →
+          </a>
+        </div>
+      </div>
+      <!-- 项目3：地材效果图 -->
+      <div class="glow-card work-item" data-cat="flooring">
+        <div class="glow-card-inner p-5">
+          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
+            <span class="cn">瓷砖空间效果图</span>
+            <span class="en hidden">Tile Interior Visual</span>
+          </div>
+          <h3 class="text-white font-medium">Ceramic Tile Room</h3>
+          <p class="text-sm text-gray-400 mt-1">
+            <span class="cn">厨卫瓷砖空间效果图，多版本色号对比</span>
+            <span class="en hidden">Bathroom tile scene, multiple color variants</span>
+          </p>
+          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
+            <span class="cn">查看详情</span>
+            <span class="en hidden">View Detail</span> →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 项目详情模块 -->
+<section id="project-detail" class="py-24">
+  <div class="container mx-auto px-6 fade-in">
+    <h2 class="text-3xl font-bold text-white mb-6">
+      <span class="cn">项目详情</span>
+      <span class="en hidden">Project Detail</span>
+    </h2>
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <div class="aspect-[16/9] bg-gray-800 rounded flex items-center justify-center text-gray-500">
+          <span class="cn">大图预览占位，替换为你的效果图</span>
+          <span class="en hidden">Main render preview, replace with your image</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl text-white font-medium">Wood Tile Scene</h3>
+        <div class="mt-4 space-y-3 text-gray-400 text-sm">
+          <p>
+            <span class="cn">项目类型：地材场景效果图</span>
+            <span class="en hidden">Type: Flooring Scene Visualization</span>
+          </p>
+          <p>
+            <span class="cn">软件：3ds Max / Photoshop</span>
+            <span class="en hidden">Tools: 3ds Max / Photoshop</span>
+          </p>
+          <p>
+            <span class="cn">描述：为建材品牌制作室内木纹地板铺贴方案，还原真实材质反光、接缝细节，输出多尺寸用于官网、画册、海外平台。</span>
+            <span class="en hidden">Description: Interior wood flooring layout for building material brand. Accurate reflection & seam details. Multi-size outputs for website, catalog and global market.</span>
+          </p>
+        </div>
+        <a href="#works" class="inline-block mt-6 px-4 py-2 border border-gray-700 rounded hover:border-accent">
+          <span class="cn">返回作品集</span>
+          <span class="en hidden">Back to Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 联系模块 -->
+<section id="contact" class="py-24 bg-dark/40">
+  <div class="container mx-auto px-6 fade-in">
+    <h2 class="text-3xl font-bold text-white mb-6">
+      <span class="cn">联系我</span>
+      <span class="en hidden">Contact</span>
+    </h2>
+    <p class="text-gray-400 mb-10 max-w-2xl">
+      <span class="cn">国内项目邮件沟通，海外客户可访问我的Upwork主页。欢迎咨询地材效果图、材质渲染外包合作。</span>
+      <span class="en hidden">Email for domestic inquiries. Global clients may visit my Upwork profile. Available for flooring visualization & texture rendering freelance work.</span>
+    </p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="glow-card">
+        <div class="glow-card-inner p-6">
+          <div class="space-y-6">
+            <div>
+              <p class="text-gray-400 text-sm">Email</p>
+              <a href="mailto:yourmail@example.com" class="text-white hover:text-accent">yourmail@example.com</a>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm">Upwork</p>
+              <a href="https://www.upwork.com/" target="_blank" class="text-white hover:text-accent">Upwork Profile Link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glow-card">
+        <div class="glow-card-inner p-6">
+          <p class="text-gray-400 text-sm mb-4">
+            <span class="cn">留言（可选，你可以后续接入表单）</span>
+            <span class="en hidden">Message (optional, connect form later)</span>
+          </p>
+          <textarea class="w-full bg-dark border border-gray-700 rounded p-3 text-white focus:border-accent outline-none" rows="4" placeholder="Your message..."></textarea>
+          <button class="mt-4 px-5 py-2 bg-accent text-dark rounded hover:bg-blue-300">
+            <span class="cn">发送</span>
+            <span class="en hidden">Send</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="py-10 border-t border-gray-800">
+  <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+    <p>© 2026 Material Visual Designer. <span class="cn">保留所有权利</span><span class="en hidden">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<script>
+// 1. 双语切换
+const langBtn = document.getElementById('langBtn');
+let isCN = true;
+langBtn.addEventListener('click', ()=>{
+  isCN = !isCN;
+  document.querySelectorAll('.cn').forEach(el=> el.classList.toggle('hidden', !isCN));
+  document.querySelectorAll('.en').forEach(el=> el.classList.toggle('hidden', isCN));
+});
+
+// 2. 移动端菜单
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+mobileMenu.querySelectorAll('a').forEach(link=> link.addEventListener('click', ()=> mobileMenu.classList.add('hidden')));
+
+// 3. 作品分类筛选
+const filterBtns = document.querySelectorAll('.filter-btn');
+const workItems = document.querySelectorAll('.work-item');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    filterBtns.forEach(b=> b.classList.remove('active','border-accent','text-accent'));
+    btn.classList.add('active','border-accent','text-accent');
+    const filter = btn.dataset.filter;
+    workItems.forEach(item=>{
+      if(filter === 'all' || item.dataset.cat === filter){
+        item.style.display = "block";
+      }else{
+        item.style.display = "none";
+      }
+    })
+  })
+})
+
+// 4. 滚动渐入动画
+const fadeElements = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add('active');
+  })
+}, {threshold:0.1});
+fadeElements.forEach(el=> observer.observe(el));
+</script>
+</body>
+</html>
