@@ -1,380 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfolio | 地材视觉效果图设计师</title>
+  <title>Interior Visualization | Flooring & Wall Panel Designer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* 全局平滑滚动 */
-    html {
-      scroll-behavior: smooth;
-    }
-    /* 流光边框动画，克制不刺眼 */
-    .glow-card {
-      position: relative;
-      background: #171717;
-      border-radius: 0.75rem;
-      overflow: hidden;
-    }
-    .glow-card::before {
-      content: "";
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 300%;
-      height: 300%;
-      background: conic-gradient(transparent, rgba(160, 190, 255, 0.25), transparent 30%);
-      animation: rotate 5s linear infinite;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .glow-card:hover::before {
-      opacity: 1;
-    }
-    .glow-card-inner {
-      position: relative;
-      z-index: 2;
-      background: #171717;
-      margin: 1px;
-      border-radius: 0.7rem;
-    }
-    @keyframes rotate {
-      100% { transform: rotate(360deg); }
-    }
-    /* 页面入场淡入动画 */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-in.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    :root{--accent:#8b5cf6;--bg:#0b0b0f;--card:#14141b;--text:#e8e8f0;}
+    body{background-color:var(--bg);color:var(--text);}
+    .glow-card{position:relative;overflow:hidden;border:1px solid #222;}
+    .glow-card::before{content:"";position:absolute;inset:-2px;background:linear-gradient(120deg,#8b5cf6,#22d3ee,#8b5cf6);background-size:200% 200%;opacity:0;transition:opacity .4s;z-index:-1;}
+    .glow-card:hover::before{opacity:0.7;animation:flow 3s linear infinite;}
+    @keyframes flow{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
+    .nav-link{position:relative;}
+    .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:#8b5cf6;transition:width .3s;}
+    .nav-link:hover::after{width:100%;}
+    .filter-active{border-color:#8b5cf6;background:rgba(139,92,246,0.12);}
   </style>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark: "#121212",
-            darkCard: "#171717",
-            accent: "#a0beff",
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
-        },
-      }
-    }
-  </script>
 </head>
-<body class="bg-dark text-gray-200 font-sans antialiased">
-<!-- 双语切换 -->
+<body class="antialiased">
+<!-- Language Switch -->
 <div class="fixed top-4 right-4 z-50">
-  <button id="langBtn" class="px-3 py-1 rounded-full border border-gray-700 hover:border-accent transition-colors text-sm">
-    EN / 中文
-  </button>
+  <button id="langBtn" class="px-3 py-1 rounded border border-gray-700 hover:border-violet-400 transition">EN</button>
 </div>
 
-<!-- 导航栏 -->
-<header class="fixed w-full top-0 z-40 bg-dark/80 backdrop-blur-md border-b border-gray-800">
-  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="#home" class="text-xl font-semibold text-white">
-      <span class="cn">地材视觉设计</span>
-      <span class="en hidden">Material Visual Designer</span>
-    </a>
-    <ul class="hidden md:flex gap-8 text-sm">
-      <li><a href="#home" class="hover:text-accent transition-colors"><span class="cn">首页</span><span class="en hidden">Home</span></a></li>
-      <li><a href="#about" class="hover:text-accent transition-colors"><span class="cn">关于我</span><span class="en hidden">About</span></a></li>
-      <li><a href="#works" class="hover:text-accent transition-colors"><span class="cn">作品集</span><span class="en hidden">Works</span></a></li>
-      <li><a href="#contact" class="hover:text-accent transition-colors"><span class="cn">联系</span><span class="en hidden">Contact</span></a></li>
-    </ul>
-    <!-- 移动端菜单 -->
-    <button id="menuBtn" class="md:hidden text-white">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 12h18M3 6h18M3 18h18"></path>
-      </svg>
+<!-- Navbar -->
+<nav class="fixed w-full top-0 z-40 bg-[#0b0b0f]/80 backdrop-blur-md border-b border-gray-800">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <a href="#home" class="text-xl font-semibold">Design Portfolio</a>
+    <div class="hidden md:flex gap-6">
+      <a href="#home" class="nav-link" data-zh="首页" data-en="Home">首页</a>
+      <a href="#about" class="nav-link" data-zh="关于我" data-en="About">关于我</a>
+      <a href="#works" class="nav-link" data-zh="作品集" data-en="Works">作品集</a>
+      <a href="#contact" class="nav-link" data-zh="联系" data-en="Contact">联系</a>
+    </div>
+    <button id="mobileMenuBtn" class="md:hidden">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-  </nav>
-  <div id="mobileMenu" class="hidden md:hidden bg-dark/95 backdrop-blur-lg px-6 pb-4">
-    <ul class="flex flex-col gap-4 text-sm">
-      <li><a href="#home" class="hover:text-accent"><span class="cn">首页</span><span class="en hidden">Home</span></a></li>
-      <li><a href="#about" class="hover:text-accent"><span class="cn">关于我</span><span class="en hidden">About</span></a></li>
-      <li><a href="#works" class="hover:text-accent"><span class="cn">作品集</span><span class="en hidden">Works</span></a></li>
-      <li><a href="#contact" class="hover:text-accent"><span class="cn">联系</span><span class="en hidden">Contact</span></a></li>
-    </ul>
   </div>
-</header>
+  <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 border-t border-gray-800">
+    <div class="flex flex-col gap-3 pt-3">
+      <a href="#home" class="nav-link" data-zh="首页" data-en="Home">首页</a>
+      <a href="#about" class="nav-link" data-zh="关于我" data-en="About">关于我</a>
+      <a href="#works" class="nav-link" data-zh="作品集" data-en="Works">作品集</a>
+      <a href="#contact" class="nav-link" data-zh="联系" data-en="Contact">联系</a>
+    </div>
+  </div>
+</nav>
 
-<!-- 首页 Hero -->
-<section id="home" class="min-h-screen flex items-center pt-20">
-  <div class="container mx-auto px-6 py-20 fade-in">
-    <div class="max-w-3xl">
-      <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-bold text-white leading-tight">
-        <span class="cn">地材视觉 & 效果图设计</span>
-        <span class="en hidden">Material Visualization & Rendering</span>
-      </h1>
-      <p class="mt-6 text-lg text-gray-400 max-w-xl">
-        <span class="cn">专注石材、木纹、地材纹理制作，3D渲染与场景效果图。服务国内品牌与海外Upwork客户。</span>
-        <span class="en hidden">Specialized in stone, wood, flooring texture creation, 3D rendering & scene visualization. Serving domestic brands and global clients on Upwork.</span>
-      </p>
-      <div class="mt-10 flex flex-wrap gap-4">
-        <a href="#works" class="px-6 py-3 bg-accent text-dark font-medium rounded hover:bg-blue-300 transition">
-          <span class="cn">浏览作品</span>
-          <span class="en hidden">View Portfolio</span>
-        </a>
-        <a href="#contact" class="px-6 py-3 border border-gray-600 rounded hover:border-accent transition">
-          <span class="cn">联系我</span>
-          <span class="en hidden">Get In Touch</span>
-        </a>
-      </div>
+<!-- Hero -->
+<section id="home" class="min-h-screen flex items-center pt-20 px-4">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-violet-400 mb-4" data-zh="地材与墙板可视化设计师" data-en="Flooring & Wall Panel Visualization Designer">地材与墙板可视化设计师</p>
+    <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6" data-zh="家装室内效果图<br/>3D渲染 · 材质特写 · 360°全景" data-en="Residential Interior Visualization<br/>3D Render · Material Shot · 360° Panorama">家装室内效果图<br/>3D渲染 · 材质特写 · 360°全景</h1>
+    <p class="text-gray-400 max-w-xl text-lg mb-8" data-zh="专注家装地材、地毯、墙板写实渲染，提供静态效果图、材质特写与交互式3D全景漫游，服务建材品牌与室内设计工作室。" data-en="Specialized in realistic renders for residential flooring, carpet and wall panels. Deliver static images, material close-ups and interactive 360° panorama for material brands & interior studios.">专注家装地材、地毯、墙板写实渲染，提供静态效果图、材质特写与交互式3D全景漫游，服务建材品牌与室内设计工作室。</p>
+    <div class="flex flex-wrap gap-4">
+      <a href="#works" class="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 rounded transition" data-zh="浏览作品集" data-en="View Portfolio">浏览作品集</a>
+      <a href="#contact" class="px-5 py-2.5 border border-gray-600 hover:border-violet-400 rounded transition" data-zh="联系我" data-en="Contact Me">联系我</a>
     </div>
   </div>
 </section>
 
-<!-- 关于我 -->
-<section id="about" class="py-24">
-  <div class="container mx-auto px-6 fade-in">
-    <h2 class="text-3xl font-bold text-white mb-10">
-      <span class="cn">关于我</span>
-      <span class="en hidden">About Me</span>
-    </h2>
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+<!-- About -->
+<section id="about" class="py-24 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-10" data-zh="关于我" data-en="About Me">关于我</h2>
+    <div class="grid md:grid-cols-2 gap-10 items-center">
       <div>
-        <p class="text-gray-400 leading-relaxed">
-          <span class="cn">地材视觉与效果图设计师，擅长地材纹理还原、材质调色、3D场景搭建与写实渲染。熟练使用 Photoshop、3ds Max、Substance Sampler，为建材品牌制作产品效果图、场景铺贴方案。同时承接海外Upwork项目，可配合海外客户规范输出效果图、材质贴图。</span>
-          <span class="en hidden">Material visualization & rendering designer. Expert in flooring texture reproduction, color grading, 3D scene setup and photorealistic rendering. Skilled in Photoshop, 3ds Max, Substance Sampler. Create product renders and tile layout visuals for building material brands. Accept freelance projects on Upwork for global clients.</span>
-        </p>
-        <div class="mt-8 flex flex-wrap gap-2">
-          <span class="px-3 py-1 bg-darkCard rounded text-sm">Photoshop</span>
-          <span class="px-3 py-1 bg-darkCard rounded text-sm">3ds Max</span>
-          <span class="px-3 py-1 bg-darkCard rounded text-sm">Substance Sampler</span>
-          <span class="px-3 py-1 bg-darkCard rounded text-sm">AI Texture</span>
-          <span class="px-3 py-1 bg-darkCard rounded text-sm">地材效果图</span>
+        <p class="text-gray-300 mb-5" data-zh="我是一名地材视觉与效果图设计师，长期做家装室内可视化。擅长木地板、SPC、瓷砖、地毯、木饰面/石纹墙板的材质还原，包含静态空间渲染、材质特写，以及360°交互式全景制作。" data-en="I am a flooring & wall panel visualization designer focusing on residential interior projects. I specialize in realistic material rendering for wood flooring, SPC, tile, carpet, wood veneer & stone wall panels, including static renders, material close-ups and 360° interactive panorama.">我是一名地材视觉与效果图设计师，长期做家装室内可视化。擅长木地板、SPC、瓷砖、地毯、木饰面/石纹墙板的材质还原，包含静态空间渲染、材质特写，以及360°交互式全景制作。</p>
+        <p class="text-gray-400 mb-5" data-zh="熟悉铺装排版、绒感与板材拼接细节，擅长模拟不同自然光环境，真实还原材质落地后的视觉效果，适合建材产品展示与室内方案预览。" data-en="Experienced in paving layout, carpet pile texture and panel joint details. I simulate natural lighting to show how materials look in real residential spaces, ideal for product presentation and interior design preview.">熟悉铺装排版、绒感与板材拼接细节，擅长模拟不同自然光环境，真实还原材质落地后的视觉效果，适合建材产品展示与室内方案预览。</p>
+        <div class="flex flex-wrap gap-2 mt-6">
+          <span class="px-3 py-1 bg-[#14141b] rounded-full text-sm">3D Max</span>
+          <span class="px-3 py-1 bg-[#14141b] rounded-full text-sm">PS</span>
+          <span class="px-3 py-1 bg-[#14141b] rounded-full text-sm">材质渲染</span>
+          <span class="px-3 py-1 bg-[#14141b] rounded-full text-sm">360全景</span>
         </div>
       </div>
-      <div class="glow-card">
-        <div class="glow-card-inner p-6">
-          <div class="aspect-[4/3] bg-gray-800 rounded flex items-center justify-center text-gray-500">
-            <span class="cn">个人形象图占位</span>
-            <span class="en hidden">Profile Image Placeholder</span>
-          </div>
-        </div>
+      <div class="aspect-video bg-[#14141b] rounded-xl flex items-center justify-center text-gray-500">
+        <span data-zh="个人形象/代表作占位图" data-en="Profile / Hero sample image">个人形象/代表作占位图</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 作品集 -->
-<section id="works" class="py-24 bg-dark/40">
-  <div class="container mx-auto px-6 fade-in">
-    <h2 class="text-3xl font-bold text-white mb-6">
-      <span class="cn">作品集</span>
-      <span class="en hidden">Portfolio</span>
-    </h2>
-    <p class="text-gray-400 mb-8">
-      <span class="cn">分类：3D渲染 / 地材效果图</span>
-      <span class="en hidden">Categories: 3D Rendering / Flooring Visualization</span>
-    </p>
-    <!-- 作品筛选按钮 -->
+<!-- Works -->
+<section id="works" class="py-24 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8" data-zh="作品集" data-en="Works">作品集</h2>
+    <!-- Filter Buttons -->
     <div class="flex flex-wrap gap-3 mb-10">
-      <button class="filter-btn active px-4 py-2 rounded border border-accent text-accent" data-filter="all">All / 全部</button>
-      <button class="filter-btn px-4 py-2 rounded border border-gray-700 hover:border-accent transition" data-filter="render">3D Render / 3D渲染</button>
-      <button class="filter-btn px-4 py-2 rounded border border-gray-700 hover:border-accent transition" data-filter="flooring">Flooring / 地材效果图</button>
+      <button class="filter-btn filter-active px-4 py-2 rounded border border-gray-700 transition" data-filter="all" data-zh="全部" data-en="All">全部</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 transition" data-filter="render" data-zh="3D空间渲染" data-en="3D Render">3D空间渲染</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 transition" data-filter="flooring" data-zh="地材效果图" data-en="Flooring Visualization">地材效果图</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 transition" data-filter="wallpanel" data-zh="墙板效果图" data-en="Wall Panel Visualization">墙板效果图</button>
+      <button class="filter-btn px-4 py-2 rounded border border-gray-700 transition" data-filter="panorama" data-zh="3D全景图" data-en="360° Panoramic Render">3D全景图</button>
     </div>
-    <!-- 作品网格 -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 work-grid">
-      <!-- 项目1：地材效果图 -->
-      <div class="glow-card work-item" data-cat="flooring">
-        <div class="glow-card-inner p-5">
-          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
-            <span class="cn">地材铺贴效果图</span>
-            <span class="en hidden">Flooring Layout Render</span>
-          </div>
-          <h3 class="text-white font-medium">Wood Tile Scene</h3>
-          <p class="text-sm text-gray-400 mt-1">
-            <span class="cn">木纹地板工字铺场景效果图，材质调色与光影匹配</span>
-            <span class="en hidden">Wood flooring herringbone scene, texture grading & lighting setup</span>
-          </p>
-          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
-            <span class="cn">查看详情</span>
-            <span class="en hidden">View Detail</span> →
-          </a>
+
+    <!-- Project Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectGrid">
+      <!-- 1. 3D空间渲染示例卡片 -->
+      <div class="glow-card rounded-xl overflow-hidden project-card" data-cat="render">
+        <div class="aspect-[4/3] bg-[#1a1a26] flex items-center justify-center text-gray-500">
+          <span data-zh="家装墙地配套全景效果图" data-en="Residential full scene render">家装墙地配套全景效果图</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg" data-zh="现代客餐厅空间渲染" data-en="Modern Living Room Render">现代客餐厅空间渲染</h3>
+          <p class="text-gray-400 mt-2 text-sm" data-zh="商业家装项目，墙板+木地板一体化空间渲染，调试自然光，展示整体搭配效果。" data-en="Residential commercial project. Wall panel + wood flooring integrated scene, natural lighting setup for material matching preview.">商业家装项目，墙板+木地板一体化空间渲染，调试自然光，展示整体搭配效果。</p>
+          <div class="mt-4"><button class="openDetailBtn text-violet-400 text-sm hover:underline" data-zh="查看详情" data-en="View Details">查看详情</button></div>
         </div>
       </div>
-      <!-- 项目2：3D渲染 -->
-      <div class="glow-card work-item" data-cat="render">
-        <div class="glow-card-inner p-5">
-          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
-            <span class="cn">石材3D产品渲染</span>
-            <span class="en hidden">Stone 3D Product Render</span>
-          </div>
-          <h3 class="text-white font-medium">Marble Slab Render</h3>
-          <p class="text-sm text-gray-400 mt-1">
-            <span class="cn">大理石板材写实渲染，纹理细节还原</span>
-            <span class="en hidden">Photorealistic marble slab render, fine texture reproduction</span>
-          </p>
-          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
-            <span class="cn">查看详情</span>
-            <span class="en hidden">View Detail</span> →
-          </a>
+
+      <!-- 2. 地材效果图（地毯示例） -->
+      <div class="glow-card rounded-xl overflow-hidden project-card" data-cat="flooring">
+        <div class="aspect-[4/3] bg-[#1a1a26] flex items-center justify-center text-gray-500">
+          <span data-zh="地毯材质特写" data-en="Carpet texture shot">地毯材质特写</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg" data-zh="卧室满铺地毯效果图" data-en="Bedroom Full Carpet Visualization">卧室满铺地毯效果图</h3>
+          <p class="text-gray-400 mt-2 text-sm" data-zh="家装地毯可视化项目，还原地毯绒感与纹样，模拟室内柔和光影表现。" data-en="Residential carpet visualization. Reproduce carpet pile texture and pattern under soft indoor lighting.">家装地毯可视化项目，还原地毯绒感与纹样，模拟室内柔和光影表现。</p>
+          <div class="mt-4"><button class="openDetailBtn text-violet-400 text-sm hover:underline" data-zh="查看详情" data-en="View Details">查看详情</button></div>
         </div>
       </div>
-      <!-- 项目3：地材效果图 -->
-      <div class="glow-card work-item" data-cat="flooring">
-        <div class="glow-card-inner p-5">
-          <div class="aspect-[4/3] bg-gray-800 rounded mb-4 flex items-center justify-center text-gray-500">
-            <span class="cn">瓷砖空间效果图</span>
-            <span class="en hidden">Tile Interior Visual</span>
-          </div>
-          <h3 class="text-white font-medium">Ceramic Tile Room</h3>
-          <p class="text-sm text-gray-400 mt-1">
-            <span class="cn">厨卫瓷砖空间效果图，多版本色号对比</span>
-            <span class="en hidden">Bathroom tile scene, multiple color variants</span>
-          </p>
-          <a href="#project-detail" class="inline-block mt-4 text-accent text-sm hover:underline">
-            <span class="cn">查看详情</span>
-            <span class="en hidden">View Detail</span> →
-          </a>
+
+      <!--3.墙板效果图示例 -->
+      <div class="glow-card rounded-xl overflow-hidden project-card" data-cat="wallpanel">
+        <div class="aspect-[4/3] bg-[#1a1a26] flex items-center justify-center text-gray-500">
+          <span data-zh="木饰面墙板特写" data-en="Wood veneer wall panel">木饰面墙板特写</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg" data-zh="木饰面板墙效果图" data-en="Wood Veneer Wall Panel Render">木饰面板墙效果图</h3>
+          <p class="text-gray-400 mt-2 text-sm" data-zh="家装墙板可视化项目，还原木饰面纹理、板材拼接细节，搭配地材做墙地搭配方案。" data-en="Residential wall panel visualization. Wood veneer texture and joint detail, matched with flooring for interior scheme.">家装墙板可视化项目，还原木饰面纹理、板材拼接细节，搭配地材做墙地搭配方案。</p>
+          <div class="mt-4"><button class="openDetailBtn text-violet-400 text-sm hover:underline" data-zh="查看详情" data-en="View Details">查看详情</button></div>
+        </div>
+      </div>
+
+      <!--4. 3D全景图示例卡片 -->
+      <div class="glow-card rounded-xl overflow-hidden project-card" data-cat="panorama">
+        <div class="aspect-[4/3] bg-[#1a1a26] flex items-center justify-center text-gray-500">
+          <span data-zh="360全景封面" data-en="360 panorama preview">360全景封面</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-lg" data-zh="全屋家装3D全景漫游" data-en="Whole House 360° Panorama">全屋家装3D全景漫游</h3>
+          <p class="text-gray-400 mt-2 text-sm" data-zh="家装360°全景渲染，交互式全屋漫游，预览墙板、地毯与地材整体材质搭配。" data-en="Residential 360° panoramic render. Interactive whole-house preview for wall panel, carpet & flooring material matching.">家装360°全景渲染，交互式全屋漫游，预览墙板、地毯与地材整体材质搭配。</p>
+          <div class="mt-4"><button class="openDetailBtn text-violet-400 text-sm hover:underline" data-zh="查看详情" data-en="View Details">查看详情</button></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 项目详情模块 -->
-<section id="project-detail" class="py-24">
-  <div class="container mx-auto px-6 fade-in">
-    <h2 class="text-3xl font-bold text-white mb-6">
-      <span class="cn">项目详情</span>
-      <span class="en hidden">Project Detail</span>
-    </h2>
-    <div class="grid lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
-        <div class="aspect-[16/9] bg-gray-800 rounded flex items-center justify-center text-gray-500">
-          <span class="cn">大图预览占位，替换为你的效果图</span>
-          <span class="en hidden">Main render preview, replace with your image</span>
-        </div>
-      </div>
+<!-- Contact -->
+<section id="contact" class="py-24 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8" data-zh="联系方式" data-en="Contact">联系方式</h2>
+    <div class="grid md:grid-cols-2 gap-10">
       <div>
-        <h3 class="text-xl text-white font-medium">Wood Tile Scene</h3>
-        <div class="mt-4 space-y-3 text-gray-400 text-sm">
-          <p>
-            <span class="cn">项目类型：地材场景效果图</span>
-            <span class="en hidden">Type: Flooring Scene Visualization</span>
-          </p>
-          <p>
-            <span class="cn">软件：3ds Max / Photoshop</span>
-            <span class="en hidden">Tools: 3ds Max / Photoshop</span>
-          </p>
-          <p>
-            <span class="cn">描述：为建材品牌制作室内木纹地板铺贴方案，还原真实材质反光、接缝细节，输出多尺寸用于官网、画册、海外平台。</span>
-            <span class="en hidden">Description: Interior wood flooring layout for building material brand. Accurate reflection & seam details. Multi-size outputs for website, catalog and global market.</span>
-          </p>
-        </div>
-        <a href="#works" class="inline-block mt-6 px-4 py-2 border border-gray-700 rounded hover:border-accent">
-          <span class="cn">返回作品集</span>
-          <span class="en hidden">Back to Portfolio</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 联系模块 -->
-<section id="contact" class="py-24 bg-dark/40">
-  <div class="container mx-auto px-6 fade-in">
-    <h2 class="text-3xl font-bold text-white mb-6">
-      <span class="cn">联系我</span>
-      <span class="en hidden">Contact</span>
-    </h2>
-    <p class="text-gray-400 mb-10 max-w-2xl">
-      <span class="cn">国内项目邮件沟通，海外客户可访问我的Upwork主页。欢迎咨询地材效果图、材质渲染外包合作。</span>
-      <span class="en hidden">Email for domestic inquiries. Global clients may visit my Upwork profile. Available for flooring visualization & texture rendering freelance work.</span>
-    </p>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="glow-card">
-        <div class="glow-card-inner p-6">
-          <div class="space-y-6">
-            <div>
-              <p class="text-gray-400 text-sm">Email</p>
-              <a href="mailto:yourmail@example.com" class="text-white hover:text-accent">yourmail@example.com</a>
-            </div>
-            <div>
-              <p class="text-gray-400 text-sm">Upwork</p>
-              <a href="https://www.upwork.com/" target="_blank" class="text-white hover:text-accent">Upwork Profile Link</a>
-            </div>
+        <p class="text-gray-300 mb-6" data-zh="如果你有家装地材、地毯、墙板效果图或3D全景项目需求，可以通过邮箱或Upwork联系我。" data-en="If you need residential flooring, carpet, wall panel renders or 360 panorama projects, feel free to reach me via email or Upwork.">如果你有家装地材、地毯、墙板效果图或3D全景项目需求，可以通过邮箱或Upwork联系我。</p>
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] flex items-center justify-center">@</div>
+            <a href="mailto:your-email@example.com" class="hover:text-violet-400 transition">your-email@example.com</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-[#14141b] flex items-center justify-center">U</div>
+            <a href="https://www.upwork.com" target="_blank" class="hover:text-violet-400 transition">Upwork Profile</a>
           </div>
         </div>
       </div>
-      <div class="glow-card">
-        <div class="glow-card-inner p-6">
-          <p class="text-gray-400 text-sm mb-4">
-            <span class="cn">留言（可选，你可以后续接入表单）</span>
-            <span class="en hidden">Message (optional, connect form later)</span>
-          </p>
-          <textarea class="w-full bg-dark border border-gray-700 rounded p-3 text-white focus:border-accent outline-none" rows="4" placeholder="Your message..."></textarea>
-          <button class="mt-4 px-5 py-2 bg-accent text-dark rounded hover:bg-blue-300">
-            <span class="cn">发送</span>
-            <span class="en hidden">Send</span>
-          </button>
-        </div>
+      <div class="bg-[#14141b] rounded-xl p-6">
+        <p class="text-gray-400 text-sm" data-zh="提示：请把邮箱、Upwork主页链接替换成你自己真实地址。" data-en="Note: Replace email and Upwork link with your real profile.">提示：请把邮箱、Upwork主页链接替换成你自己真实地址。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 页脚 -->
-<footer class="py-10 border-t border-gray-800">
-  <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
-    <p>© 2026 Material Visual Designer. <span class="cn">保留所有权利</span><span class="en hidden">All rights reserved.</span></p>
-  </div>
+<footer class="py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+  <p data-zh="©2026 地材与墙板可视化设计师. 保留所有权利." data-en="©2026 Flooring & Wall Panel Visual Designer. All rights reserved.">©2026 地材与墙板可视化设计师. 保留所有权利.</p>
 </footer>
 
+<!-- Project Detail Modal -->
+<div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="bg-[#0b0b0f] border border-gray-700 max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-xl p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h3 id="modalTitle" class="text-xl font-semibold"></h3>
+      <button id="closeModal" class="text-gray-400 hover:text-white">✕</button>
+    </div>
+    <div id="modalBody" class="text-gray-300"></div>
+  </div>
+</div>
+
 <script>
-// 1. 双语切换
+// Bilingual switch
 const langBtn = document.getElementById('langBtn');
-let isCN = true;
-langBtn.addEventListener('click', ()=>{
-  isCN = !isCN;
-  document.querySelectorAll('.cn').forEach(el=> el.classList.toggle('hidden', !isCN));
-  document.querySelectorAll('.en').forEach(el=> el.classList.toggle('hidden', isCN));
-});
-
-// 2. 移动端菜单
-const menuBtn = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-menuBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
-mobileMenu.querySelectorAll('a').forEach(link=> link.addEventListener('click', ()=> mobileMenu.classList.add('hidden')));
-
-// 3. 作品分类筛选
-const filterBtns = document.querySelectorAll('.filter-btn');
-const workItems = document.querySelectorAll('.work-item');
-filterBtns.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    filterBtns.forEach(b=> b.classList.remove('active','border-accent','text-accent'));
-    btn.classList.add('active','border-accent','text-accent');
-    const filter = btn.dataset.filter;
-    workItems.forEach(item=>{
-      if(filter === 'all' || item.dataset.cat === filter){
-        item.style.display = "block";
-      }else{
-        item.style.display = "none";
-      }
-    })
+let isEn = false;
+function switchLang(){
+  isEn = !isEn;
+  langBtn.textContent = isEn ? 'CN' : 'EN';
+  document.querySelectorAll('[data-zh]').forEach(el=>{
+    el.textContent = isEn ? el.dataset.en : el.dataset.zh;
   })
+}
+langBtn.onclick = switchLang;
+
+// Mobile menu
+const mobileBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+mobileBtn.onclick = ()=> mobileMenu.classList.toggle('hidden');
+
+// Filter
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.project-card');
+filterBtns.forEach(btn=>{
+  btn.onclick = ()=>{
+    filterBtns.forEach(b=>b.classList.remove('filter-active'));
+    btn.classList.add('filter-active');
+    const f = btn.dataset.filter;
+    cards.forEach(card=>{
+      if(f==='all' || card.dataset.cat === f) card.style.display='block';
+      else card.style.display='none';
+    })
+  }
 })
 
-// 4. 滚动渐入动画
-const fadeElements = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting) entry.target.classList.add('active');
-  })
-}, {threshold:0.1});
-fadeElements.forEach(el=> observer.observe(el));
+// Modal
+const modal = document.getElementById('detailModal');
+const closeModal = document.getElementById('closeModal');
+const openBtns = document.querySelectorAll('.openDetailBtn');
+openBtns.forEach(btn=>{
+  btn.onclick = (e)=>{
+    const card = e.target.closest('.project-card');
+    const titleZh = card.querySelector('h3').dataset.zh;
+    const titleEn = card.querySelector('h3').dataset.en;
+    const descZh = card.querySelector('p').dataset.zh;
+    const descEn = card.querySelector('p').dataset.en;
+    document.getElementById('modalTitle').textContent = isEn ? titleEn : titleZh;
+    document.getElementById('modalBody').innerHTML = `<p>${isEn ? descEn : descZh}</p><br/><p class="text-gray-400 text-sm" data-zh>可在此处放入更多项目细节、多图、全景外部链接</p>`;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+})
+closeModal.onclick = ()=>{modal.classList.add('hidden');modal.classList.remove('flex');}
+modal.onclick = (e)=>{if(e.target===modal){modal.classList.add('hidden');modal.classList.remove('flex');}}
+
+// Smooth scroll for anchor
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.onclick = (e)=>{
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth'});
+    mobileMenu.classList.add('hidden');
+  }
+})
 </script>
 </body>
 </html>
